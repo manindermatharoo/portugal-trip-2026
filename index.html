@@ -82,6 +82,7 @@
   #today .card{border:2px solid var(--accent);}
   ul.stops li.past{opacity:.55;}
   .sunset{margin-top:10px; font-weight:600; color:var(--accent2);}
+.day-head .sun{font-weight:700; color:var(--accent2); white-space:nowrap;}
   .anchors{margin-top:8px; font-size:.9rem;}
   .anchor{display:inline-block; background:var(--todo); border-radius:6px; padding:2px 8px; margin:2px 2px 2px 0;}
   .anchor.gone{background:var(--chip); color:var(--muted); text-decoration:line-through;}
@@ -191,7 +192,7 @@
   <div id="day-map" aria-label="Map of the selected day"></div>
 
   <div class="card" id="day-0">
-    <div class="day-head"><span class="dow">Mon 30 Nov</span><span class="theme">Land Lisbon, straight to Porto, Ribeira evening</span><span class="base">Airbnb · Rua das Flores, Porto</span></div>
+    <div class="day-head"><span class="dow">Mon 30 Nov</span><span class="theme">Land Lisbon, straight to Porto, Ribeira evening</span><span class="base">Airbnb · Rua das Flores, Porto</span><span class="sun">🌅 Sunset 5:06 PM</span></div>
     <div class="wx">Partly cloudy · 16°C · ~10% rain · Forecast as of 26 Nov</div>
     <ul class="stops">
       <li><span class="t">8:00 AM</span><span class="s">✈️ <b>Land at Lisbon airport.</b> Metro Red Line to Lisboa Oriente (~6 min) — do not go into central Lisbon. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Lisbon+Airport" target="_blank" rel="noopener">Map</a></span></li>
@@ -209,7 +210,7 @@
   </div>
 
   <div class="card" id="day-1">
-    <div class="day-head"><span class="dow">Tue 1 Dec</span><span class="theme">Porto east → west across Baixa · national holiday</span><span class="base">Airbnb · Rua das Flores, Porto</span></div>
+    <div class="day-head"><span class="dow">Tue 1 Dec</span><span class="theme">Porto east → west across Baixa · national holiday</span><span class="base">Airbnb · Rua das Flores, Porto</span><span class="sun">🌅 Sunset 5:06 PM</span></div>
     <div class="wx">Mostly cloudy · 16°C · ~10% rain · Forecast as of 26 Nov</div>
     <ul class="stops">
       <li><span class="t">8:15 AM</span><span class="s">🏠 <b>Leave the Airbnb</b> — Rua das Flores, Porto. Breakfast on this street: <b>Floresta Café</b> (nº 146, from 8:15 AM) or a quick nata at Nata Lisboa (nº 291) — see Food tab. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Rua+das+Flores%2C+Porto" target="_blank" rel="noopener">Map</a></span></li>
@@ -231,7 +232,7 @@
   </div>
 
   <div class="card" id="day-2">
-    <div class="day-head"><span class="dow">Wed 2 Dec</span><span class="theme">Porto old town → Gaia, then the evening train to Lisbon</span><span class="base">Porto Airbnb → Lisbon Airbnb</span></div>
+    <div class="day-head"><span class="dow">Wed 2 Dec</span><span class="theme">Porto old town → Gaia, then the evening train to Lisbon</span><span class="base">Porto Airbnb → Lisbon Airbnb</span><span class="sun">🌅 Sunset 5:06 PM</span></div>
     <div class="wx">Mostly dry · 16°C · ~10% rain, showers only late night · Forecast as of 26 Nov</div>
     <ul class="stops">
       <li><span class="t">9:10 AM</span><span class="s">🎒 <b>Check out — leave the Airbnb with your bags</b> (Rua das Flores, Porto). Checkout is before 11:00 AM; you are out early for the Bounce drop. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Rua+das+Flores%2C+Porto" target="_blank" rel="noopener">Map</a></span></li>
@@ -253,7 +254,7 @@
   </div>
 
   <div class="card" id="day-3">
-    <div class="day-head"><span class="dow">Thu 3 Dec</span><span class="theme">Alfama at sunrise → centre → Cacilhas → Christmas lights by night</span><span class="base">Airbnb · Praça das Flores, Estrela</span></div>
+    <div class="day-head"><span class="dow">Thu 3 Dec</span><span class="theme">Alfama at sunrise → centre → Cacilhas → Christmas lights by night</span><span class="base">Airbnb · Praça das Flores, Estrela</span><span class="sun">🌅 Sunset 5:15 PM</span></div>
     <div class="wx">Partly cloudy · 17°C · ~20% rain · Forecast as of 26 Nov</div>
     <ul class="stops">
       <li><span class="t">7:35 AM</span><span class="s">🏠 <b>Leave the Airbnb</b> — Praça das Flores, Estrela. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+das+Flores%2C+Lisbon" target="_blank" rel="noopener">Map</a></span></li>
@@ -276,7 +277,7 @@
   </div>
 
   <div class="card" id="day-4">
-    <div class="day-head"><span class="dow">Fri 4 Dec</span><span class="theme">Sintra, in hill order · Wonderland by night</span><span class="base">Airbnb · Praça das Flores, Estrela</span></div>
+    <div class="day-head"><span class="dow">Fri 4 Dec</span><span class="theme">Sintra, in hill order · Wonderland by night</span><span class="base">Airbnb · Praça das Flores, Estrela</span><span class="sun">🌅 Sunset 5:15 PM</span></div>
     <div class="wx">Partly cloudy · 17°C · ~20% rain · Forecast as of 26 Nov</div>
     <ul class="stops">
       <li class="meal"><span class="t">7:45 AM</span><span class="s">🍳 <b>Breakfast — at the flat</b> Nothing sit-down fits the 8:41 AM train.<details class="opts"><summary>▾ 3 options · cook in · historic café · grab-and-go</summary><div class="opt"><div><b>Cook in</b><span class="tag">€</span><span class="opt-note">the flat has a full kitchen — the slowest, easiest start — <i>order: whatever you bought the night before</i></span></div><a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+das+Flores%2C+Lisbon" target="_blank" rel="noopener">Map</a></div><div class="opt"><div><b>Café Nicola</b><span class="tag">€</span><span class="opt-note">historic Rossio café, on the walk to the station — <i>order: coffee & toast in the old room</i></span></div><a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Caf%C3%A9+Nicola%2C+Lisbon" target="_blank" rel="noopener">Map</a></div><div class="opt"><div><b>Rossio station</b><span class="tag">€</span><span class="opt-note">if the morning runs late — <i>order: grab-and-go pastry & coffee</i></span></div><a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Rossio+Station%2C+Lisbon" target="_blank" rel="noopener">Map</a></div></details></span></li>
@@ -294,7 +295,7 @@
   </div>
 
   <div class="card" id="day-5">
-    <div class="day-head"><span class="dow">Sat 5 Dec</span><span class="theme">Chiado → Belém by day, a short lights stroll from home by night</span><span class="base">Airbnb · Praça das Flores, Estrela</span></div>
+    <div class="day-head"><span class="dow">Sat 5 Dec</span><span class="theme">Chiado → Belém by day, a short lights stroll from home by night</span><span class="base">Airbnb · Praça das Flores, Estrela</span><span class="sun">🌅 Sunset 5:15 PM</span></div>
     <div class="wx">Partly cloudy · 17°C · ~20% rain · Forecast as of 26 Nov</div>
     <ul class="stops">
       <li class="meal"><span class="t">9:00 AM</span><span class="s">🍳 <b>Breakfast — Praça das Flores</b> Then out at 9:30 AM.<details class="opts"><summary>▾ 3 options · neighbourhood café · garden cafés · terrace by the opera</summary><div class="opt"><div><b>Pão de Canela</b><span class="tag">€</span><span class="opt-note">the café on your own square, terrace on the garden — <i>order: café breakfast on the terrace</i></span></div><a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=P%C3%A3o+de+Canela%2C+Pra%C3%A7a+das+Flores%2C+Lisbon" target="_blank" rel="noopener">Map</a></div><div class="opt"><div><b>The Príncipe Real garden cafés</b><span class="tag">€</span><span class="opt-note">five minutes uphill — <i>order: coffee under the big cedar</i></span></div><a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Jardim+do+Pr%C3%ADncipe+Real%2C+Lisbon" target="_blank" rel="noopener">Map</a></div><div class="opt"><div><b>Café Lisboa</b><span class="tag">€€</span><span class="opt-note">terrace by the opera house, ~8 min toward Chiado — <i>order: light Portuguese plates</i></span></div><a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Caf%C3%A9+Lisboa%2C+Lisbon" target="_blank" rel="noopener">Map</a></div></details></span></li>
@@ -317,7 +318,7 @@
   </div>
 
   <div class="card" id="day-6">
-    <div class="day-head"><span class="dow">Sun 6 Dec</span><span class="theme">Fly home</span><span class="base">Airbnb · Praça das Flores, Estrela</span></div>
+    <div class="day-head"><span class="dow">Sun 6 Dec</span><span class="theme">Fly home</span><span class="base">Airbnb · Praça das Flores, Estrela</span><span class="sun">🌅 Sunset 5:15 PM</span></div>
     <div class="wx">Departure day · Partly cloudy · 17°C · ~10% rain · Forecast as of 26 Nov (edge of 10-day window)</div>
     <ul class="stops">
       <li><span class="t">5:30 AM</span><span class="s">🏠 <b>Leave the Airbnb — taxi/Bolt to the airport</b> (~€12–16 per car). The Metro's first Sunday train is 6:30 AM — too late for this flight. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+das+Flores%2C+Lisbon" target="_blank" rel="noopener">Map</a></span></li>
