@@ -50,13 +50,6 @@
 .mapnum span{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#b3543f;color:#fff;font-weight:700;font-size:13px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35)}
 .mapnum.ci span{background:#3f7ab3}
 .mapnum.abnb span{background:#2f6f4f}
-#day-map-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin:8px 0 14px}
-.lg-item{display:inline-flex;align-items:center;gap:6px;font-size:13px}
-.lg-num{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:50%;background:#b3543f;color:#fff;font-weight:700;font-size:11px;padding:0 3px}
-.lg-num.abnb{background:#2f6f4f}
-.lg-num.ci{background:#3f7ab3}
-.lg-t{color:#8a8378}
-.lg-num.none{background:transparent;color:#b0a894;border:1px solid #d8d2c4}
 .stopnum{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:50%;background:#b3543f;color:#fff;font-weight:700;font-size:11px;margin-right:6px;vertical-align:middle;padding:0 3px}
 .stopnum.abnb{background:#2f6f4f}
 .stopnum.none{background:transparent;color:#b0a894;border:1px solid #d8d2c4}
@@ -189,9 +182,8 @@
   <div class="chips" id="day-chips"></div>
   <p style="margin-bottom:12px;"><button class="btn ghost" id="days-checkin-link" type="button">+ Check in on the Today tab</button></p>
 
-  <p class="note">The day on a map — pins numbered in route order, green pins are the Airbnb. The key under the map names every number.</p>
+  <p class="note">The day on a map — pins numbered in route order, matching the numbers in the day list below. Green pins are the Airbnb; a · in the list means that stop is not pinned on the map.</p>
   <div id="day-map" aria-label="Map of the selected day"></div>
-  <div id="day-map-legend" aria-label="Map key"></div>
 
   <div class="card" id="day-0">
     <div class="day-head"><span class="dow">Mon 30 Nov</span><span class="theme">Land Lisbon, straight to Porto, Ribeira evening</span><span class="base">Airbnb · Rua das Flores, Porto</span></div>
@@ -912,15 +904,6 @@ function numberDayStops(){
 function renderDayMap(d){
   var box=document.getElementById('day-map');if(!box)return;
   var stops=STOPS.filter(function(s){return s.d===d;});
-  var lg=document.getElementById('day-map-legend');
-  if(lg){
-    if(stops.length){
-      var items=stops.map(function(s,i){var ab=/Airbnb/.test(s.n);return '<span class="lg-item"><span class="lg-num'+(ab?' abnb':'')+'">'+(i+1)+'</span><span class="lg-t">'+fmtT(s.t)+'</span> '+esc(s.n)+'</span>';});
-      loadCheckins().filter(function(c){return c.day===d&&c.a!=null&&c.o!=null;}).forEach(function(c){items.push('<span class="lg-item"><span class="lg-num ci">+</span> '+esc(c.name)+' (your check-in)</span>');});
-      items.push('<span class="lg-item"><span class="lg-num none">\u00b7</span> in the day list, not pinned</span>');
-      lg.innerHTML=items.join('');
-    } else lg.innerHTML='';
-  }
   if(!stops.length){box.style.display='none';return;}
   if(!window.L){box.style.display='none';return;}
   box.style.display='';
