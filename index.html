@@ -56,6 +56,10 @@
 .lg-num.abnb{background:#2f6f4f}
 .lg-num.ci{background:#3f7ab3}
 .lg-t{color:#8a8378}
+.lg-num.none{background:transparent;color:#b0a894;border:1px solid #d8d2c4}
+.stopnum{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:50%;background:#b3543f;color:#fff;font-weight:700;font-size:11px;margin-right:6px;vertical-align:middle;padding:0 3px}
+.stopnum.abnb{background:#2f6f4f}
+.stopnum.none{background:transparent;color:#b0a894;border:1px solid #d8d2c4}
 .t.shifted{color:#b3543f}
 .pacewarn{color:#b3543f;font-weight:600;margin-top:6px}
 .via{display:block;font-size:12px;font-weight:600;opacity:.65;margin-bottom:2px;letter-spacing:.01em}
@@ -869,6 +873,42 @@ function dayOffset(d){
   return {off:off,why:a0};
 }
 var dayMap=null,dayMapLayer=null;
+function numberDayStops(){
+  for(var d=0;d<7;d++){
+    var card=document.getElementById('day-'+d);if(!card)continue;
+    var stops=STOPS.filter(function(s){return s.d===d;});
+    var used={};
+    var lis=card.querySelectorAll('ul.stops > li');
+    Array.prototype.forEach.call(lis,function(li){
+      if(li.querySelector('.stopnum'))return;
+      var tEl=li.querySelector('.t');if(!tEl)return;
+      var pm=parseDisp(tEl.textContent);
+      var sEl=li.querySelector('.s');
+      var full=(sEl?sEl.textContent:'').toLowerCase();
+      var liName='';
+      if(sEl){
+        var dl=sEl.querySelector('.via a[href*="destination="]');
+        if(dl){try{liName+=decodeURIComponent((dl.getAttribute('href').split('destination=')[1]||'').split('&')[0])+' ';}catch(e){}}
+        Array.prototype.forEach.call(sEl.querySelectorAll('b'),function(b){liName+=b.textContent+' ';});
+      }
+      liName=liName.toLowerCase();
+      var best=-1,bestScore=1,bestDiff=1e9;
+      if(pm!=null)stops.forEach(function(s,i){
+        if(used[i])return;
+        var diff=Math.abs(toMin(s.t)-pm);if(diff>25)return;
+        var sc=0;
+        s.n.toLowerCase().split(/[^a-z\u00e0-\u00ff0-9]+/).forEach(function(w){if(w.length>3&&liName.indexOf(w)>=0)sc++;});
+        if(/airbnb/i.test(s.n)&&/airbnb/i.test(full))sc+=3;
+        if(diff===0)sc+=2;
+        if(sc>bestScore||(sc===bestScore&&diff<bestDiff)){bestScore=sc;bestDiff=diff;best=i;}
+      });
+      var b=document.createElement('span');
+      if(best>=0){used[best]=1;b.className='stopnum'+(/Airbnb/.test(stops[best].n)?' abnb':'');b.textContent=best+1;}
+      else{b.className='stopnum none';b.textContent='\u00b7';}
+      li.insertBefore(b,li.firstChild);
+    });
+  }
+}
 function renderDayMap(d){
   var box=document.getElementById('day-map');if(!box)return;
   var stops=STOPS.filter(function(s){return s.d===d;});
@@ -877,6 +917,7 @@ function renderDayMap(d){
     if(stops.length){
       var items=stops.map(function(s,i){var ab=/Airbnb/.test(s.n);return '<span class="lg-item"><span class="lg-num'+(ab?' abnb':'')+'">'+(i+1)+'</span><span class="lg-t">'+fmtT(s.t)+'</span> '+esc(s.n)+'</span>';});
       loadCheckins().filter(function(c){return c.day===d&&c.a!=null&&c.o!=null;}).forEach(function(c){items.push('<span class="lg-item"><span class="lg-num ci">+</span> '+esc(c.name)+' (your check-in)</span>');});
+      items.push('<span class="lg-item"><span class="lg-num none">\u00b7</span> in the day list, not pinned</span>');
       lg.innerHTML=items.join('');
     } else lg.innerHTML='';
   }
@@ -890,8 +931,16 @@ function renderDayMap(d){
   }
   dayMapLayer.clearLayers();
   var pts=[];
+  var seen={};
   stops.forEach(function(s,i){
-    var ll=[s.a,s.o];pts.push(ll);
+    var ll=[s.a,s.o];
+    var key=s.a.toFixed(4)+','+s.o.toFixed(4);
+    var cnt=seen[key]||0;seen[key]=cnt+1;
+    if(cnt>0){
+      var ang=cnt*2.39996,rad=0.00017*cnt;
+      ll=[s.a+rad*Math.sin(ang),s.o+rad*Math.cos(ang)/Math.cos(s.a*Math.PI/180)];
+    }
+    pts.push(ll);
     var icon=L.divIcon({className:'mapnum'+(/Airbnb/.test(s.n)?' abnb':''),html:'<span>'+(i+1)+'</span>',iconSize:[24,24],iconAnchor:[12,12]});
     L.marker(ll,{icon:icon}).addTo(dayMapLayer).bindPopup('<b>'+(i+1)+'. '+s.n+'</b><br>'+fmtT(s.t)+' \u00b7 '+DAY_NAMES[d]+'<br><a href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.q||s.n)+'" target="_blank" rel="noopener">Open in Google Maps</a>');
   });
@@ -1228,7 +1277,7 @@ function initNav(){
 }
 function init(){
   buildChips();
-  renderToday();renderNext();renderFood();initTicks();markToday();initShare();initNav();renderCheckinsIntoDays();fillDatalist();initPack();
+  renderToday();renderNext();renderFood();initTicks();markToday();initShare();initNav();renderCheckinsIntoDays();fillDatalist();initPack();numberDayStops();
   switchTab(tabFromHash()||'today',true);
   var lb=document.getElementById('loc-btn');if(lb)lb.addEventListener('click',requestLocation);
   setInterval(function(){renderToday();renderNext();},60000);
