@@ -83,6 +83,7 @@
   ul.stops li.past{opacity:.55;}
   .sunset{margin-top:10px; font-weight:600; color:var(--accent2);}
 .day-head .sun{font-weight:700; color:var(--accent2); white-space:nowrap;}
+.meal-alert{margin-top:10px; padding:10px 12px; border:1.5px solid var(--accent); border-radius:10px; font-weight:600;}
   .anchors{margin-top:8px; font-size:.9rem;}
   .anchor{display:inline-block; background:var(--todo); border-radius:6px; padding:2px 8px; margin:2px 2px 2px 0;}
   .anchor.gone{background:var(--chip); color:var(--muted); text-decoration:line-through;}
@@ -730,6 +731,20 @@ function renderToday(){
       if(Math.abs(doffS.off)<5)html+='<p class="note">Live timings: you\u2019re on plan ('+doffS.why.label+').</p>';
       else if(doffS.off>0)html+='<p class="note">Live timings: running ~'+doffS.off+' min behind ('+doffS.why.label+') \u2014 the times below have shifted to match your day.</p>';
       else html+='<p class="note">Live timings: ~'+(-doffS.off)+' min ahead ('+doffS.why.label+') \u2014 the times below have shifted.</p>';
+    }
+    var MEALN=[['Parque das Na\u00e7\u00f5es','light \u2014 station bites or the train','Ribeira','Bolh\u00e3o snacks'],['Rua das Flores','Batalha','Aliados','Casa Guedes'],['S\u00e3o Bento','Gaia riverfront','light \u2014 train snacks or P\u00e3o de Canela by the flat','\u2014'],['Campo de Santa Clara','Restauradores / Baixa','Cacilhas','a bifana at Afonso'],['at the flat','Sintra old town','Bairro Alto / Chiado','Piriquita pastries'],['Pra\u00e7a das Flores','Chiado','Bel\u00e9m / Junqueira','Past\u00e9is de Bel\u00e9m'],null];
+    var MW=[['\ud83c\udf73','Breakfast',450,630,0],['\ud83e\udd6a','Lunch',690,870,1],['\ud83e\udd50','Snack',900,1080,3],['\ud83c\udf7d\ufe0f','Dinner',1110,1290,2]];
+    var md=MEALN[di];
+    if(md){
+      var lt=new Date(new Date().toLocaleString('en-US',{timeZone:'Europe/Lisbon'}));
+      var nowMin=lt.getHours()*60+lt.getMinutes();
+      for(var mi=0;mi<MW.length;mi++){var w=MW[mi];
+        if(nowMin>=w[2]-30&&nowMin<w[3]){
+          var soon=nowMin<w[2];
+          html+='<p class="meal-alert">'+w[0]+' '+(soon?w[1]+' time soon \u2014 start looking!':'It\u2019s '+w[1].toLowerCase()+' time!')+' Today\u2019s plan eats around <b>'+md[w[4]]+'</b> \u2014 the picks are in today\u2019s card below and the Food tab.</p>';
+          break;
+        }
+      }
     }
   }else if(lp.dateStr<DAY_DATES[0]){
     var days=Math.round((Date.parse(DAY_DATES[0])-Date.parse(lp.dateStr))/86400000);
