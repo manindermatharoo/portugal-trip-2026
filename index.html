@@ -49,6 +49,13 @@
 .mapnum{background:transparent;border:none}
 .mapnum span{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#b3543f;color:#fff;font-weight:700;font-size:13px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35)}
 .mapnum.ci span{background:#3f7ab3}
+.mapnum.abnb span{background:#2f6f4f}
+#day-map-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin:8px 0 14px}
+.lg-item{display:inline-flex;align-items:center;gap:6px;font-size:13px}
+.lg-num{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:50%;background:#b3543f;color:#fff;font-weight:700;font-size:11px;padding:0 3px}
+.lg-num.abnb{background:#2f6f4f}
+.lg-num.ci{background:#3f7ab3}
+.lg-t{color:#8a8378}
 .t.shifted{color:#b3543f}
 .pacewarn{color:#b3543f;font-weight:600;margin-top:6px}
 .via{display:block;font-size:12px;font-weight:600;opacity:.65;margin-bottom:2px;letter-spacing:.01em}
@@ -178,8 +185,9 @@
   <div class="chips" id="day-chips"></div>
   <p style="margin-bottom:12px;"><button class="btn ghost" id="days-checkin-link" type="button">+ Check in on the Today tab</button></p>
 
-  <p class="note">The day on a map — pins numbered in route order. Tap a pin for the stop and a Google Maps link.</p>
+  <p class="note">The day on a map — pins numbered in route order, green pins are the Airbnb. The key under the map names every number.</p>
   <div id="day-map" aria-label="Map of the selected day"></div>
+  <div id="day-map-legend" aria-label="Map key"></div>
 
   <div class="card" id="day-0">
     <div class="day-head"><span class="dow">Mon 30 Nov</span><span class="theme">Land Lisbon, straight to Porto, Ribeira evening</span><span class="base">Airbnb · Rua das Flores, Porto</span></div>
@@ -550,7 +558,8 @@ var STOPS=[
 {d:0,t:'09:30',n:'Bounce bag drop — Oriente / Parque das Nações',q:'Lisboa Oriente Station',a:38.76807,o:-9.09926,c:'Metro Red Line from the airport · 3 stops, ~6 min'},
 {d:0,t:'11:39',n:'IC 621 train — Oriente to Porto',q:'Lisboa Oriente Station',a:38.76807,o:-9.09926,c:'You\'re already in the station — board, bags in hand'},
 {d:0,t:'14:43',n:'Arrive Porto Campanhã',q:'Porto Campanhã Station',a:41.14812,o:-8.58620,c:'Free Urbano hop to São Bento (~5 min) → walk down Rua das Flores (4–6 min)'},
-{d:0,t:'15:40',n:'Mercado do Bolhão',q:'Mercado do Bolhão, Porto',a:41.14939,o:-8.60703,c:'Check in, then walk north · ~10–12 min'},
+{d:0,t:'15:00',n:'Check in — the Airbnb, Rua das Flores, Porto',q:'Rua das Flores, Porto',a:41.1435,o:-8.6113,c:'Free Urbano hop to São Bento, then walk · ~7 min'},
+{d:0,t:'15:40',n:'Mercado do Bolhão',q:'Mercado do Bolhão, Porto',a:41.14939,o:-8.60703,c:'Walk north · ~10–12 min'},
 {d:0,t:'16:40',n:'Ribeira → Dom Luís I Bridge lower deck',q:'Ribeira, Porto',a:41.13995,o:-8.60943,c:'Walk south downhill · ~10 min'},
 {d:0,t:'17:00',n:'Jardim do Morro (sunset)',q:'Jardim do Morro, Vila Nova de Gaia',a:41.13613,o:-8.60864,c:'Cross the Dom Luís I lower deck · ~10 min'},
 {d:0,t:'19:30',n:'Dinner — Adega São Nicolau',q:'Adega São Nicolau, Porto',a:41.14057,o:-8.61512,c:'Walk back across the bridge · ~10 min'},
@@ -613,6 +622,7 @@ var STOPS=[
 {d:5,t:'19:30',n:'Dinner — Magnolia',q:'Magnolia, Praça das Flores, Lisbon',a:38.71537,o:-9.15173,c:'Walk via Príncipe Real · ~12 min (freshen up at the flat first)'},
 {d:5,t:'21:00',n:'Wonderland Lisboa — Parque Eduardo VII',q:'Parque Eduardo VII, Lisbon',a:38.72766,o:-9.15399,c:'Bolt/taxi up Av. da Liberdade from Chiado · ~10 min'},
 {d:5,t:'23:00',n:'Head back to the Airbnb — Praça das Flores, Estrela',q:'Praça das Flores, Lisbon',a:38.7153,o:-9.1527,c:'Downhill lights walk, then taxi back · ~8–10 min'},
+{d:6,t:'05:30',n:'Leave the Airbnb — Praça das Flores, Estrela',q:'Praça das Flores, Lisbon',a:38.7153,o:-9.1527},
 {d:6,t:'05:30',n:'Taxi to Lisbon Airport',q:'Lisbon Airport',a:38.77012,o:-9.12868},
 {d:6,t:'08:30',n:'Flight home',q:'Lisbon Airport',a:38.77012,o:-9.12868,c:'Taxi ride · ~15 min, then check-in and security'}
 ];
@@ -861,9 +871,17 @@ function dayOffset(d){
 var dayMap=null,dayMapLayer=null;
 function renderDayMap(d){
   var box=document.getElementById('day-map');if(!box)return;
-  if(!window.L){box.style.display='none';return;}
   var stops=STOPS.filter(function(s){return s.d===d;});
+  var lg=document.getElementById('day-map-legend');
+  if(lg){
+    if(stops.length){
+      var items=stops.map(function(s,i){var ab=/Airbnb/.test(s.n);return '<span class="lg-item"><span class="lg-num'+(ab?' abnb':'')+'">'+(i+1)+'</span><span class="lg-t">'+fmtT(s.t)+'</span> '+esc(s.n)+'</span>';});
+      loadCheckins().filter(function(c){return c.day===d&&c.a!=null&&c.o!=null;}).forEach(function(c){items.push('<span class="lg-item"><span class="lg-num ci">+</span> '+esc(c.name)+' (your check-in)</span>');});
+      lg.innerHTML=items.join('');
+    } else lg.innerHTML='';
+  }
   if(!stops.length){box.style.display='none';return;}
+  if(!window.L){box.style.display='none';return;}
   box.style.display='';
   if(!dayMap){
     dayMap=L.map('day-map',{scrollWheelZoom:false});
@@ -874,7 +892,7 @@ function renderDayMap(d){
   var pts=[];
   stops.forEach(function(s,i){
     var ll=[s.a,s.o];pts.push(ll);
-    var icon=L.divIcon({className:'mapnum',html:'<span>'+(i+1)+'</span>',iconSize:[24,24],iconAnchor:[12,12]});
+    var icon=L.divIcon({className:'mapnum'+(/Airbnb/.test(s.n)?' abnb':''),html:'<span>'+(i+1)+'</span>',iconSize:[24,24],iconAnchor:[12,12]});
     L.marker(ll,{icon:icon}).addTo(dayMapLayer).bindPopup('<b>'+(i+1)+'. '+s.n+'</b><br>'+fmtT(s.t)+' \u00b7 '+DAY_NAMES[d]+'<br><a href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.q||s.n)+'" target="_blank" rel="noopener">Open in Google Maps</a>');
   });
   loadCheckins().filter(function(c){return c.day===d&&c.a!=null&&c.o!=null;}).forEach(function(c){
