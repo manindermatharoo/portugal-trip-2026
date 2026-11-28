@@ -1419,8 +1419,24 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 (function(){
   var WMO={0:'Clear',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Fog',51:'Light drizzle',53:'Drizzle',55:'Drizzle',56:'Freezing drizzle',57:'Freezing drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',66:'Freezing rain',67:'Freezing rain',71:'Light snow',73:'Snow',75:'Heavy snow',77:'Snow grains',80:'Light showers',81:'Showers',82:'Heavy showers',85:'Snow showers',86:'Snow showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'};
   window.__wxData={};
+  // The daily code alone paints whole days 'Fog' when the model only means overnight/early-morning
+  // fog (common in Lisbon/Porto in late autumn). Use the hourly codes: fog that ends before noon
+  // becomes 'AM fog, then <daytime sky>'; only fog lasting past noon earns a plain 'Fog'.
+  function dayDesc(dailyCode, hours){
+    if(!hours) return WMO[dailyCode]||'—';
+    var anyFog=false, morningFog=false, dayFog=false;
+    for(var h=0;h<24;h++){ if(hours[h]===45||hours[h]===48){ anyFog=true; if(h<12)morningFog=true; if(h>=12&&h<=20)dayFog=true; } }
+    if(!anyFog) return WMO[dailyCode]||'—';
+    if(dayFog) return 'Fog';
+    var cnt={},best=null,bc=-1;
+    for(var h2=9;h2<=20;h2++){ var c=hours[h2]; if(c===45||c===48) continue; cnt[c]=(cnt[c]||0)+1; if(cnt[c]>bc){bc=cnt[c];best=c;} }
+    var d2=(best!=null&&(WMO[best]||'clearing'))||'clearing';
+    if(morningFog) return 'AM fog, then '+d2.charAt(0).toLowerCase()+d2.slice(1);
+    return d2;
+  }
+  window.__dayDesc=dayDesc;
   function wxText(d){
-    var desc=WMO[d.code]||'—';
+    var desc=d.desc||WMO[d.code]||'—';
     var t=desc+' · '+Math.round(d.max)+'°/'+Math.round(d.min)+'°C';
     if(d.pop!=null&&!isNaN(d.pop))t+=' · ~'+Math.round(d.pop)+'% rain';
     return t;
@@ -1439,12 +1455,14 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   }
   window.__fillTodayWx=fillTodayWx;
   function loadCity(city,lat,lon){
-    var url='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Europe%2FLisbon&start_date=2026-11-30&end_date=2026-12-06';
+    var url='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&hourly=weather_code&timezone=Europe%2FLisbon&start_date=2026-11-30&end_date=2026-12-06';
     fetch(url).then(function(r){return r.json();}).then(function(j){
       if(!j||!j.daily||!j.daily.time)return;
       var dl=j.daily;
+      var byDate={};
+      if(j.hourly&&j.hourly.time){ for(var hi=0;hi<j.hourly.time.length;hi++){ var dk=j.hourly.time[hi].slice(0,10); if(!byDate[dk])byDate[dk]=[]; byDate[dk][parseInt(j.hourly.time[hi].slice(11,13),10)]=j.hourly.weather_code[hi]; } }
       for(var i=0;i<dl.time.length;i++){
-        window.__wxData[city+'|'+dl.time[i]]={code:dl.weather_code[i],max:dl.temperature_2m_max[i],min:dl.temperature_2m_min[i],pop:(dl.precipitation_probability_max?dl.precipitation_probability_max[i]:null)};
+        window.__wxData[city+'|'+dl.time[i]]={code:dl.weather_code[i],desc:dayDesc(dl.weather_code[i],byDate[dl.time[i]]),max:dl.temperature_2m_max[i],min:dl.temperature_2m_min[i],pop:(dl.precipitation_probability_max?dl.precipitation_probability_max[i]:null)};
       }
       var els=document.querySelectorAll('.wx[data-wxcity="'+city+'"]');
       Array.prototype.forEach.call(els,function(el){
