@@ -810,13 +810,13 @@ function renderToday(){
     if(cardLis.length){
       fromCard=true;
       var lastM=0;
-      Array.prototype.forEach.call(cardLis,function(li){
+      Array.prototype.forEach.call(cardLis,function(li,liIdx){
         if(li.classList.contains('ci'))return;
         var tEl=li.querySelector('.t'),sEl=li.querySelector('.s');
         if(!tEl||!sEl)return;
         var mm2=parseDisp(tEl.textContent);
         if(mm2==null){mm2=lastM+0.5;}else{lastM=mm2;}
-        entries.push({mins:mm2,t:tEl.textContent,s:sEl.innerHTML});
+        entries.push({mins:mm2,t:tEl.textContent,s:sEl.innerHTML,idx:liIdx});
       });
     }
     if(!fromCard){
@@ -824,6 +824,7 @@ function renderToday(){
     }
     loadCheckins().filter(function(c){return c.day===showDay;}).forEach(function(c){entries.push({mins:c.mins,ci:c});});
     entries.sort(function(x,y){return x.mins-y.mins;});
+    var visT=loadVisited();
     var nextMarked=false;
     var TRCARD={
       0:{title:'IC 621 · Oriente → Campanhã',line:'Departs <b>11:39 AM</b> · arrives <b>2:43 PM</b> · Booked · 2nd class · Full fare',dep:699,note:'Running late? This fare changes <b>free up to 15 min before departure</b> — change it on <a href="https://www.cp.pt/passageiros/en" target="_blank" rel="noopener">cp.pt</a> before 11:24 AM. Be inside Oriente, bags in hand, by 11:00 AM.'},
@@ -854,7 +855,9 @@ function renderToday(){
         var cls2=(past2?'past':'');
         var dispT=e.t,tCls='t';
         if(doff.why&&doff.off!==0&&e.mins>doff.why.planned){dispT=fmtTime(e.mins+doff.off);tCls='t shifted';}
-        html+='<li'+(cls2?' class="'+cls2+'"':'')+'><span class="'+tCls+'">'+dispT+'</span><span class="s">'+sHtml+'</span></li>';
+        var onT=(e.idx!=null&&!!visT[showDay+'-'+e.idx]);
+        var cls2b=(cls2||'')+(onT?' done':'');
+        html+='<li'+(cls2b?' class="'+cls2b+'"':'')+'><span class="'+tCls+'">'+dispT+'</span><span class="s">'+sHtml+'</span>'+(e.idx!=null?'<button type="button" class="tick" data-tick="'+showDay+'-'+e.idx+'" aria-pressed="'+(onT?'true':'false')+'">'+(onT?'\u2713 Been here':'Been here')+'</button>':'')+'</li>';
         return;
       }
       var s=e.stop;
@@ -1362,6 +1365,20 @@ function initNav(){
     var el=ev.target;
     while(el&&el!==document){if(el.classList&&el.classList.contains('ci-del'))break;el=el.parentNode;}
     if(el&&el.classList&&el.classList.contains('ci-del'))deleteCheckin(el.getAttribute('data-ci'));
+  });
+  document.addEventListener('click',function(ev){
+    var el=ev.target;
+    while(el&&el!==document){if(el.classList&&el.classList.contains('tick')&&el.getAttribute&&el.getAttribute('data-tick'))break;el=el.parentNode;}
+    if(!el||!el.classList||!el.classList.contains('tick')||!el.getAttribute||!el.getAttribute('data-tick'))return;
+    if(!(el.closest&&el.closest('#today-body')))return;
+    var key=el.getAttribute('data-tick');var pr=key.split('-');var dd=parseInt(pr[0],10),ii=parseInt(pr[1],10);
+    var lis2=document.querySelectorAll('#day-'+dd+' ul.stops > li');
+    var li2=lis2[ii];
+    if(li2){var b2=li2.querySelector('button.tick');if(b2){b2.click();return;}}
+    var visited2=loadVisited();var tt2=tickTimes();
+    if(visited2[key]){delete visited2[key];delete tt2[key];}else{visited2[key]=1;var lp9=lisbonParts();tt2[key]={m:lp9.mins,ds:lp9.dateStr};}
+    try{localStorage.setItem('ptg-ticktimes-v1',JSON.stringify(tt2));}catch(e){}
+    saveVisited(visited2);renderToday();
   });
   var dcl=document.getElementById('days-checkin-link');
   if(dcl)dcl.addEventListener('click',function(){
