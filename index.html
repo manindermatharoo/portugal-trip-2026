@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portugal Trip — Lisbon + Porto · 30 Nov – 6 Dec 2026</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0f5e6b">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Portugal Trip">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
 <style>
   :root{
     --ink:#1d2733; --muted:#5b6b7c; --accent:#0f5e6b; --accent2:#b4552d;
@@ -129,6 +136,14 @@
     .t{flex-basis:46px;}
     nav a{margin:0 5px; font-size:.83rem;}
   }
+#today-wx:empty{display:none;}
+.sun-alert{margin-top:10px; padding:10px 12px; border:1.5px solid var(--accent2); border-radius:10px; font-weight:600;}
+.train-card{margin-top:10px; padding:10px 12px; border:1.5px solid var(--accent); border-radius:10px; background:var(--chip);}
+.train-card .tc-t{font-weight:700; margin-bottom:2px;}
+.train-card .tc-n{font-size:.9rem; color:var(--muted); margin-top:2px;}
+.eve-card{margin-top:10px; padding:10px 12px; border:1.5px solid var(--accent2); border-radius:10px; background:var(--todo);}
+.eve-card .tc-t{font-weight:700; margin-bottom:2px;}
+.eve-card .tc-n{font-size:.9rem; color:var(--muted); margin-top:2px;}
 </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
@@ -194,7 +209,7 @@
 
   <div class="card" id="day-0">
     <div class="day-head"><span class="dow">Mon 30 Nov</span><span class="theme">Land Lisbon, straight to Porto, Ribeira evening</span><span class="base">Airbnb · Rua das Flores, Porto</span><span class="sun">🌅 Sunset 5:06 PM</span></div>
-    <div class="wx">Partly cloudy · 16°C · ~10% rain · Forecast as of 26 Nov</div>
+    <div class="wx" data-wxdate="2026-11-30" data-wxcity="porto">Partly cloudy · 16°C · ~10% rain · Forecast as of 27 Nov</div>
     <ul class="stops">
       <li><span class="t">8:00 AM</span><span class="s">✈️ <b>Land at Lisbon airport.</b> Metro Red Line to Lisboa Oriente (~6 min) — do not go into central Lisbon. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Lisbon+Airport" target="_blank" rel="noopener">Map</a></span></li>
       <li><span class="t">~9:30 AM</span><span class="s"><span class="via">🚇 Metro Red Line from the airport · 3 stops, ~6 min · <a href="https://www.google.com/maps/dir/?api=1&origin=Lisbon+Airport&destination=Lisboa+Oriente+Station" target="_blank" rel="noopener">Directions</a></span>🎒 <b>Drop bags at Bounce</b> near Oriente / Parque das Nações, then a relaxed riverside morning — coffee and a pastel de nata along the Expo '98 waterfront. Breakfast here: <b>Nina</b> (brunch café 5 min toward the river, from 9:00 AM) or Honest Greens toward the river — see Food tab. This morning is the buffer, on purpose. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Lisboa+Oriente+Station" target="_blank" rel="noopener">Map</a></span></li>
@@ -212,7 +227,7 @@
 
   <div class="card" id="day-1">
     <div class="day-head"><span class="dow">Tue 1 Dec</span><span class="theme">Porto east → west across Baixa · national holiday</span><span class="base">Airbnb · Rua das Flores, Porto</span><span class="sun">🌅 Sunset 5:06 PM</span></div>
-    <div class="wx">Mostly cloudy · 16°C · ~10% rain · Forecast as of 26 Nov</div>
+    <div class="wx" data-wxdate="2026-12-01" data-wxcity="porto">Partly cloudy · 16°C · ~10% rain · Forecast as of 27 Nov</div>
     <ul class="stops">
       <li><span class="t">8:15 AM</span><span class="s">🏠 <b>Leave the Airbnb</b> — Rua das Flores, Porto. Breakfast on this street: <b>Floresta Café</b> (nº 146, from 8:15 AM) or a quick nata at Nata Lisboa (nº 291) — see Food tab. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Rua+das+Flores%2C+Porto" target="_blank" rel="noopener">Map</a></span></li>
       <li class="meal"><span class="t">~8:20 AM</span><span class="s"><span class="via">🚶 On your street · ~2 min · <a href="https://www.google.com/maps/dir/?api=1&origin=Rua+das+Flores%2C+Porto&destination=Floresta+Caf%C3%A9%2C+Rua+das+Flores%2C+Porto" target="_blank" rel="noopener">Directions</a></span>🍳 <b>Breakfast — Rua das Flores / São Bento</b><details class="opts"><summary>▾ 3 options · brunch · nata</summary><div class="opt"><div><b>Floresta Café by Hungry Biker</b><span class="tag">€€</span><span class="tag">★ 4.8</span><span class="opt-note">brunch — <i>order: Strawberry Fields breakfast & ricotta pancakes</i></span></div><a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Floresta%20Caf%C3%A9%20by%20Hungry%20Biker%2C%20Porto" target="_blank" rel="noopener">Map</a></div><div class="opt"><div><b>Do Norte Café by Hungry Biker</b><span class="tag">€€</span><span class="tag">★ 4.9</span><span class="opt-note">brunch, ~5 min north — <i>order: the breakfast bowls</i></span></div><a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Do%20Norte%20Caf%C3%A9%20by%20Hungry%20Biker%2C%20Porto" target="_blank" rel="noopener">Map</a></div><div class="opt"><div><b>Nata Lisboa</b><span class="tag">€</span><span class="tag">★ 4.6</span><span class="opt-note">pastel de nata — <i>order: a warm pastel de nata</i></span></div><a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Nata%20Lisboa%2C%20Porto" target="_blank" rel="noopener">Map</a></div></details></span></li>
@@ -234,7 +249,7 @@
 
   <div class="card" id="day-2">
     <div class="day-head"><span class="dow">Wed 2 Dec</span><span class="theme">Porto old town → Gaia, then the evening train to Lisbon</span><span class="base">Porto Airbnb → Lisbon Airbnb</span><span class="sun">🌅 Sunset 5:06 PM</span></div>
-    <div class="wx">Mostly dry · 16°C · ~10% rain, showers only late night · Forecast as of 26 Nov</div>
+    <div class="wx" data-wxdate="2026-12-02" data-wxcity="porto">Partly cloudy · 16°C · ~10% rain · Forecast as of 27 Nov</div>
     <ul class="stops">
       <li><span class="t">9:10 AM</span><span class="s">🎒 <b>Check out — leave the Airbnb with your bags</b> (Rua das Flores, Porto). Checkout is before 11:00 AM; you are out early for the Bounce drop. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Rua+das+Flores%2C+Porto" target="_blank" rel="noopener">Map</a></span></li>
       <li><span class="t">~9:15 AM</span><span class="s"><span class="via">🚶 Walk up Rua das Flores to São Bento · ~3–4 min · <a href="https://www.google.com/maps/dir/?api=1&origin=Rua+das+Flores%2C+Porto&destination=S%C3%A3o+Bento+Station%2C+Porto" target="_blank" rel="noopener">Directions</a></span>🎒 <b>Drop bags at Bounce</b> — São Bento Train Station spot (~€3.98/bag, open 8:00 AM–11:30 PM). <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=S%C3%A3o+Bento+Station%2C+Porto" target="_blank" rel="noopener">Map</a></span></li>
@@ -256,7 +271,7 @@
 
   <div class="card" id="day-3">
     <div class="day-head"><span class="dow">Thu 3 Dec</span><span class="theme">Alfama at sunrise → centre → Cacilhas → Christmas lights by night</span><span class="base">Airbnb · Praça das Flores, Estrela</span><span class="sun">🌅 Sunset 5:15 PM</span></div>
-    <div class="wx">Partly cloudy · 17°C · ~20% rain · Forecast as of 26 Nov</div>
+    <div class="wx" data-wxdate="2026-12-03" data-wxcity="lisbon">Mostly sunny · 17°C · ~10% rain · Forecast as of 27 Nov</div>
     <ul class="stops">
       <li><span class="t">7:35 AM</span><span class="s">🏠 <b>Leave the Airbnb</b> — Praça das Flores, Estrela. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+das+Flores%2C+Lisbon" target="_blank" rel="noopener">Map</a></span></li>
       <li><span class="t">8:00 AM</span><span class="s"><span class="via">🚶 Walk downhill to Baixa-Chiado metro (~10–12 min) → Green Line to Martim Moniz (~3 min) · <a href="https://www.google.com/maps/dir/?api=1&origin=Pra%C3%A7a+das+Flores%2C+Lisbon&destination=Miradouro+da+Senhora+do+Monte%2C+Lisbon" target="_blank" rel="noopener">Directions</a></span>🌅 <b>Tram 28E</b> up to Graça → <b>Miradouro da Senhora do Monte</b> ~8:20 AM, in the first golden hour → Miradouro da Graça. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Miradouro+da+Senhora+do+Monte%2C+Lisbon" target="_blank" rel="noopener">Map</a></span></li>
@@ -279,7 +294,7 @@
 
   <div class="card" id="day-4">
     <div class="day-head"><span class="dow">Fri 4 Dec</span><span class="theme">Sintra, in hill order · Wonderland by night</span><span class="base">Airbnb · Praça das Flores, Estrela</span><span class="sun">🌅 Sunset 5:15 PM</span></div>
-    <div class="wx">Partly cloudy · 17°C · ~20% rain · Forecast as of 26 Nov</div>
+    <div class="wx" data-wxdate="2026-12-04" data-wxcity="lisbon">Mostly sunny · 17°C · ~10% rain · Forecast as of 27 Nov</div>
     <ul class="stops">
       <li class="meal"><span class="t">7:45 AM</span><span class="s">🍳 <b>Breakfast — at the flat</b> Nothing sit-down fits the 8:41 AM train.<details class="opts"><summary>▾ 3 options · cook in · nata · historic café</summary><div class="opt"><div><b>Cook in</b><span class="opt-note">self-catered — the flat has a full kitchen</span></div><a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Cook%20in%2C%20Lisbon" target="_blank" rel="noopener">Map</a></div><div class="opt"><div><b>Fábrica da Nata</b><span class="tag">€</span><span class="tag">★ 4.6</span><span class="opt-note">pastel de nata — opens 7:00 AM, fits the Sintra train — <i>order: nata warm from the oven</i></span></div><a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=F%C3%A1brica%20da%20Nata%2C%20Lisbon" target="_blank" rel="noopener">Map</a></div><div class="opt"><div><b>Café Nicola</b><span class="tag">€</span><span class="tag">★ 4.4</span><span class="opt-note">historic Art Deco café — <i>order: torrada & a pastel de nata</i></span></div><a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Caf%C3%A9%20Nicola%2C%20Lisbon" target="_blank" rel="noopener">Map</a></div></details></span></li>
        <li><span class="t">8:15 AM</span><span class="s">🏠 <b>Leave the Airbnb</b> — Praça das Flores, Estrela. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+das+Flores%2C+Lisbon" target="_blank" rel="noopener">Map</a></span></li>
@@ -297,7 +312,7 @@
 
   <div class="card" id="day-5">
     <div class="day-head"><span class="dow">Sat 5 Dec</span><span class="theme">Chiado → Belém by day, a short lights stroll from home by night</span><span class="base">Airbnb · Praça das Flores, Estrela</span><span class="sun">🌅 Sunset 5:15 PM</span></div>
-    <div class="wx">Partly cloudy · 17°C · ~20% rain · Forecast as of 26 Nov</div>
+    <div class="wx" data-wxdate="2026-12-05" data-wxcity="lisbon">Sunny · 16°C · ~10% rain · Forecast as of 27 Nov</div>
     <ul class="stops">
       <li class="meal"><span class="t">9:00 AM</span><span class="s">🍳 <b>Breakfast — Praça das Flores</b> Then out at 9:30 AM.<details class="opts"><summary>▾ 2 options · pastelaria · on the square</summary><div class="opt"><div><b>Pastelaria Camões</b><span class="tag">€</span><span class="tag">★ 4.8</span><span class="opt-note">pastelaria, ~5 min toward Chiado — <i>order: pastéis & torrada</i></span></div><a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Pastelaria%20Cam%C3%B5es%2C%20Lisbon" target="_blank" rel="noopener">Map</a></div><div class="opt"><div><b>Pão de Canela</b><span class="tag">€</span><span class="opt-note">on your square — convenience only, ~4.2 on Google (below the bar) — <i>order: a pastry by the square</i></span></div><a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=P%C3%A3o%20de%20Canela%2C%20Lisbon" target="_blank" rel="noopener">Map</a></div></details></span></li>
        <li><span class="t">9:30 AM</span><span class="s">🏠 <b>Leave the Airbnb</b> — Praça das Flores, Estrela. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+das+Flores%2C+Lisbon" target="_blank" rel="noopener">Map</a></span></li>
@@ -320,7 +335,7 @@
 
   <div class="card" id="day-6">
     <div class="day-head"><span class="dow">Sun 6 Dec</span><span class="theme">Fly home</span><span class="base">Airbnb · Praça das Flores, Estrela</span><span class="sun">🌅 Sunset 5:15 PM</span></div>
-    <div class="wx">Departure day · Partly cloudy · 17°C · ~10% rain · Forecast as of 26 Nov (edge of 10-day window)</div>
+    <div class="wx" data-wxdate="2026-12-06" data-wxcity="lisbon">Departure day · Mostly sunny · 17°C · ~10% rain · Forecast as of 27 Nov</div>
     <ul class="stops">
       <li><span class="t">5:30 AM</span><span class="s">🏠 <b>Leave the Airbnb — taxi/Bolt to the airport</b> (~€12–16 per car). The Metro's first Sunday train is 6:30 AM — too late for this flight. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Pra%C3%A7a+das+Flores%2C+Lisbon" target="_blank" rel="noopener">Map</a></span></li>
       <li><span class="t">6:00 AM</span><span class="s"><span class="via">🚖 Taxi/Bolt · ~20 min at this hour · <a href="https://www.google.com/maps/dir/?api=1&origin=Pra%C3%A7a+das+Flores%2C+Lisbon&destination=Lisbon+Airport" target="_blank" rel="noopener">Directions</a></span>📍 At the airport, ~2½ hours before departure. <a class="pinlink" href="https://www.google.com/maps/search/?api=1&query=Lisbon+Airport" target="_blank" rel="noopener">Map</a></span></li>
@@ -726,6 +741,7 @@ function renderToday(){
   if(di>=0){
     showDay=di;
     html+='<h3 style="margin-top:8px;">Today — '+DAY_NAMES[di]+'</h3><p class="note">'+DAY_THEMES[di]+'</p>';
+    html+='<p class="note" id="today-wx"></p>';
     var doffS=dayOffset(di);
     if(doffS.why){
       if(Math.abs(doffS.off)<5)html+='<p class="note">Live timings: you\u2019re on plan ('+doffS.why.label+').</p>';
@@ -745,6 +761,38 @@ function renderToday(){
           break;
         }
       }
+    }
+    var SUNSPOT=[[1026,'Jardim do Morro'],[1026,'Miradouro da Virtudes'],[1026,'the Dom Luís I bridge walk back'],[1035,'the Ginjal walk below Cristo Rei'],[1035,'the ride back from Sintra'],[1035,'Belém Tower'],null];
+    var ss=SUNSPOT[di];
+    if(ss){
+      var ltS=new Date(new Date().toLocaleString('en-US',{timeZone:'Europe/Lisbon'}));
+      var nmS=ltS.getHours()*60+ltS.getMinutes();
+      if(nmS>=ss[0]-90&&nmS<ss[0]){html+='<p class="sun-alert">🌇 Golden hour — sunset '+fmtTime(ss[0])+' at <b>'+ss[1]+'</b>. Aim to be there by '+fmtTime(ss[0]-30)+'.</p>';}
+      else if(nmS>=ss[0]&&nmS<=ss[0]+15){html+='<p class="sun-alert">🌇 The sun set at '+fmtTime(ss[0])+' — afterglow for ~15 min at <b>'+ss[1]+'</b>.</p>';}
+    }
+    if(lp.mins>=1140&&di<6){
+      var EVE_NOTE=[
+        'Tomorrow is the 1 Dec holiday — Bolhão stays shut (it was today instead). Lello tomorrow afternoon is timed-entry.',
+        'Checkout morning: bags go to Bounce São Bento ~9:15 AM, collect ~5:40 PM before the 6:40 PM train.',
+        'Isabel\u2019s lockbox photo and instructions land in the Airbnb app today — make sure you have them, and the SEF guest form submitted if it isn\u2019t yet.',
+        'Sintra: 8:41 AM train from Rossio. Pena is first — 10:30 AM if you kept the interior slot; park-only can be decided at the gate.',
+        'Belém day: Jerónimos is a timed ticket, and Pastéis de Belém is fastest via the takeaway counter.',
+        'Flight day: alarm 5:15 AM, taxi/Bolt at 5:30 AM, airport ~6:00 AM for the 8:30 AM flight. Pack tonight.'
+      ];
+      var tmLis=document.querySelectorAll('#day-'+(di+1)+' ul.stops > li');
+      var firstBits=[];
+      for(var ei=0;ei<tmLis.length&&firstBits.length<2;ei++){
+        var tt2=tmLis[ei].querySelector('.t'),st2=tmLis[ei].querySelector('.s');
+        if(tt2&&st2){
+          var cl2=st2.cloneNode(true);var det2=cl2.querySelector('details');if(det2)det2.remove();
+          var tx2=cl2.textContent.replace(/\s+/g,' ').trim();if(tx2.length>110)tx2=tx2.slice(0,107)+'…';
+          firstBits.push('<div><b>'+tt2.textContent+'</b> — '+esc(tx2)+'</div>');
+        }
+      }
+      var wxT='';
+      var tmWx=document.querySelector('#day-'+(di+1)+' .wx');
+      if(tmWx&&tmWx.textContent)wxT='<div class="tc-n">'+esc(tmWx.textContent)+'</div>';
+      html+='<div class="eve-card"><div class="tc-t">🌙 Tomorrow — '+DAY_NAMES[di+1]+'</div>'+firstBits.join('')+'<div style="margin-top:2px;">'+EVE_NOTE[di]+'</div>'+wxT+'</div>';
     }
   }else if(lp.dateStr<DAY_DATES[0]){
     var days=Math.round((Date.parse(DAY_DATES[0])-Date.parse(lp.dateStr))/86400000);
@@ -776,6 +824,16 @@ function renderToday(){
     loadCheckins().filter(function(c){return c.day===showDay;}).forEach(function(c){entries.push({mins:c.mins,ci:c});});
     entries.sort(function(x,y){return x.mins-y.mins;});
     var nextMarked=false;
+    var TRCARD={
+      0:{title:'IC 621 · Oriente → Campanhã',line:'Departs <b>11:39 AM</b> · arrives <b>2:43 PM</b> · Booked · 2nd class · Full fare',dep:699,note:'Running late? This fare changes <b>free up to 15 min before departure</b> — change it on <a href="https://www.cp.pt/passageiros/en" target="_blank" rel="noopener">cp.pt</a> before 11:24 AM. Be inside Oriente, bags in hand, by 11:00 AM.'},
+      2:{title:'AP 134 · Campanhã → Santa Apolónia',line:'Departs <b>6:40 PM</b> · arrives <b>9:30 PM</b> · Booked · 2nd class · Promo fare',dep:1120,note:'Collect the bags from Bounce São Bento by <b>~5:40 PM</b> first — the São Bento → Campanhã hop is free with this ticket.'}
+    };
+    var tc=TRCARD[showDay];
+    if(tc){
+      var cd='';
+      if(di===showDay){var left=tc.dep-lp.mins;if(left>0)cd=' · <b>Departs in '+fmtDur(left)+'</b>';else if(left>-30)cd=' · <b>Departed '+fmtTime(tc.dep)+'</b>';}
+      html+='<div class="train-card"><div class="tc-t">🚆 '+tc.title+cd+'</div><div>'+tc.line+'</div><div class="tc-n">'+tc.note+'</div></div>';
+    }
     html+='<ul class="stops" style="margin-top:8px;">';
     entries.forEach(function(e){
       if(e.ci){
@@ -1353,6 +1411,56 @@ function init(){
   setInterval(function(){renderToday();renderNext();},60000);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+<script>
+// v35: live weather via Open-Meteo (no key, CORS-open) + service worker registration.
+// Static .wx text stays as the fallback if the fetch fails.
+(function(){
+  var WMO={0:'Clear',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Fog',51:'Light drizzle',53:'Drizzle',55:'Drizzle',56:'Freezing drizzle',57:'Freezing drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',66:'Freezing rain',67:'Freezing rain',71:'Light snow',73:'Snow',75:'Heavy snow',77:'Snow grains',80:'Light showers',81:'Showers',82:'Heavy showers',85:'Snow showers',86:'Snow showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'};
+  window.__wxData={};
+  function wxText(d){
+    var desc=WMO[d.code]||'—';
+    var t=desc+' · '+Math.round(d.max)+'°/'+Math.round(d.min)+'°C';
+    if(d.pop!=null&&!isNaN(d.pop))t+=' · ~'+Math.round(d.pop)+'% rain';
+    return t;
+  }
+  window.__wxText=wxText;
+  var DATES=['2026-11-30','2026-12-01','2026-12-02','2026-12-03','2026-12-04','2026-12-05','2026-12-06'];
+  var CITIES=['porto','porto','porto','lisbon','lisbon','lisbon','lisbon'];
+  function fillTodayWx(){
+    var el=document.getElementById('today-wx');if(!el)return;
+    var parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Lisbon',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+    var m={};for(var i=0;i<parts.length;i++)m[parts[i].type]=parts[i].value;
+    var ds=m.year+'-'+m.month+'-'+m.day;var ix=DATES.indexOf(ds);
+    if(ix<0){el.textContent='';return;}
+    var d=window.__wxData[CITIES[ix]+'|'+ds];
+    el.textContent=d?('Weather today: '+wxText(d)+' · live forecast'):'';
+  }
+  window.__fillTodayWx=fillTodayWx;
+  function loadCity(city,lat,lon){
+    var url='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+'&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Europe%2FLisbon&start_date=2026-11-30&end_date=2026-12-06';
+    fetch(url).then(function(r){return r.json();}).then(function(j){
+      if(!j||!j.daily||!j.daily.time)return;
+      var dl=j.daily;
+      for(var i=0;i<dl.time.length;i++){
+        window.__wxData[city+'|'+dl.time[i]]={code:dl.weather_code[i],max:dl.temperature_2m_max[i],min:dl.temperature_2m_min[i],pop:(dl.precipitation_probability_max?dl.precipitation_probability_max[i]:null)};
+      }
+      var els=document.querySelectorAll('.wx[data-wxcity="'+city+'"]');
+      Array.prototype.forEach.call(els,function(el){
+        var d2=window.__wxData[city+'|'+el.getAttribute('data-wxdate')];
+        if(d2)el.textContent=wxText(d2)+' · Live forecast';
+      });
+      fillTodayWx();
+    }).catch(function(){});
+  }
+  function initWx(){
+    loadCity('porto',41.1579,-8.6291);
+    loadCity('lisbon',38.7223,-9.1393);
+    setInterval(fillTodayWx,30000);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initWx);else initWx();
+  if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 })();
 </script>
 </body>
